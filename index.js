@@ -67,8 +67,11 @@ const CheckJarHandler = {
     handle(handlerInput) {
         // this.response.speak("This is test");
         var slots = handlerInput.requestEnvelope.request.intent.slots;
-        var jar_to_get = slots.goal.value;
-        return handlerInput.responseBuilder.speak("In the " + jar.jar_task + " swear jar, you have " + jar.total).getResponse();
+        var jar_to_get = jar_list.find(obj => {
+            return obj.jar_task === slots.goal.value
+        });
+        
+        return handlerInput.responseBuilder.speak("In the " + jar_to_get.jar_task + " swear jar, you have " + jar_to_get.total).getResponse();
     }
 };
 
@@ -100,7 +103,7 @@ const YesHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
       handlerInput.requestEnvelope.request.intent.name === 'AMAZON.YesIntent' ||
-      handlerInput.requestEnvelope.request.intent.name === 'Record';
+      handlerInput.requestEnvelope.request.intent.name === 'RecordPositive';
   },
   handle(handlerInput) {
     console.log('In YesHandler');
@@ -116,12 +119,18 @@ const YesHandler = {
 const NoHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
-      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.NoIntent';
+      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.NoIntent' ||
+      handlerInput.requestEnvelope.request.intent.name === 'RecordNegative';
   },
   handle(handlerInput) {
     console.log('IN NOHANDLER');
-    jar.total = jar.total + jar.payment;
-    return handlerInput.responseBuilder.speak("Adding "+ jar.payment+" to total").getResponse();
+    var slots = handlerInput.requestEnvelope.request.intent.slots;
+    var jar_to_get = jar_list.find(obj => {
+        return obj.jar_task === slots.goal.value
+    });
+    jar_to_get.total += jar_to_get.paymentl;
+    return handlerInput.responseBuilder.speak("Adding " + jar_to_get.payment + " to " 
+    + jar_to_get.jar_task + " your total is now " + jar_to_get.total).getResponse();
   },
 };
 
