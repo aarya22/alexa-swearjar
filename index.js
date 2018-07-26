@@ -43,20 +43,28 @@ const SetupJarHandler = {
   }, 
   
   handle(handlerInput) {
-    var slots = handlerInput.requestEnvelope.request.intent.slots;
-    var newjar = 
-    { 
-      jar_task: slots.goal.value, 
-      frequency: slots.frequency.value, 
-      payment: slots.amount.value, 
-      currency: slots.currency.value,
-      destination: "American Cancer Society",
-      total: 0
+    if (handlerInput.requestEnvelope.request.dialogState === "STARTED"){
+
     }
-    jar_list.push(newjar);
-    return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " " + newjar.currency).getResponse();
+    else if (handlerInput.requestEnvelope.request.dialogState != "COMPLETED"){
+      return {"type": "Dialog.delegate"};
+    }
+    else {
+      var slots = handlerInput.requestEnvelope.request.intent.slots;
+      var newjar = 
+      { 
+        jar_task: slots.goal.value, 
+        frequency: slots.frequency.value, 
+        payment: slots.amount.value, 
+        destination: "American Cancer Society",
+        total: 0
+      }
+      jar_list.push(newjar);
+      return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " dollars.").getResponse();
+    }
   }
 };
+
 
 const CheckJarHandler = {
     canHandle(handlerInput) {
@@ -86,6 +94,7 @@ const ListJarHandler = {
         handlerInput.requestEnvelope.request.intent.name === "List";
   },
   
+  
   handle(handlerInput) {
     return handlerInput.responseBuilder.speak(`You currently have ${getSpeakableListOfJars()}`).getResponse();
   }
@@ -100,9 +109,12 @@ const YesHandler = {
   handle(handlerInput) {
     console.log('In YesHandler');
 
+    const speakResponse = `Here's your random fact: ${getRandomFact(ALL_FACTS)} ${getRandomYesNoQuestion()}`;
+    const repromptResponse = getRandomYesNoQuestion();
+
     return handlerInput.responseBuilder
-      .speak("Great job! Keep it up!")
-      .reprompt("I didn't catch that, what was it again?")
+      .speak(speakResponse)
+      .reprompt(repromptResponse)
       .getResponse();
   },
 };
@@ -116,7 +128,8 @@ const NoHandler = {
   handle(handlerInput) {
     console.log('IN NOHANDLER');
     jar.total = jar.total + jar.payment;
-    return handlerInput.responseBuilder.speak("Adding "+ jar.payment+" to total").getResponse();
+    const speakResponse = getRandomGoodbye();
+    return handlerInput.responseBuilder.speak("Adding "+jar.payment+" to total").getResponse();
   },
 };
 
