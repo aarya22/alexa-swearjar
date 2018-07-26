@@ -117,12 +117,9 @@ const YesHandler = {
   handle(handlerInput) {
     console.log('In YesHandler');
 
-    const speakResponse = `Here's your random fact: ${getRandomFact(ALL_FACTS)} ${getRandomYesNoQuestion()}`;
-    const repromptResponse = getRandomYesNoQuestion();
-
     return handlerInput.responseBuilder
-      .speak(speakResponse)
-      .reprompt(repromptResponse)
+      .speak("Great job! Keep it up")
+      .reprompt("I didn't catch that. Please try again.")
       .getResponse();
   },
 };
