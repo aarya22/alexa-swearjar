@@ -47,12 +47,22 @@ const SetupJarHandler = {
   }
 }
 
+const NoHandler = {
+  canHandle(handlerInput) {
+      return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "NoHandler";
+  }, 
+  
+  handle(handlerInput) {
+    jar.total = jar.total + jar.payment;
+    return handlerInput.responseBuilder.speak("Adding 1 to total").getResponse();
+  }
+}
+
 const CheckJarHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-        handlerInput.requestEnvelope.request.intent.name === "Check";
-    },
-    
+        handlerInput.requestEnvelo
     handle(handlerInput) {
         // this.response.speak("This is test");
         return handlerInput.responseBuilder.speak("In the " + jar.jar_task + " swear jar, you have " + jar.total).getResponse();
