@@ -44,10 +44,10 @@ const SetupJarHandler = {
   
   handle(handlerInput) {
     if (handlerInput.requestEnvelope.request.dialogState === "STARTED"){
-
+      var updatedIntent = this.event.request.intent;
     }
     else if (handlerInput.requestEnvelope.request.dialogState != "COMPLETED"){
-      return {"type": "Dialog.delegate"};
+      return this.emit(":delegate", updatedIntent);
     }
     else {
       var slots = handlerInput.requestEnvelope.request.intent.slots;
@@ -69,7 +69,9 @@ const SetupJarHandler = {
 const CheckJarHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-        handlerInput.requestEnvelo
+        handlerInput.requestEnvelope.request.intent.name === "Check";
+    },
+    
     handle(handlerInput) {
         // this.response.speak("This is test");
         var slots = handlerInput.requestEnvelope.request.intent.slots;
@@ -138,7 +140,7 @@ const NoHandler = {
     var jar_to_get = jar_list.find(obj => {
         return obj.jar_task === slots.goal.value
     });
-    jar_to_get.total += jar_to_get.paymentl;
+    jar_to_get.total = jar_to_get.total +  jar_to_get.payment;
     return handlerInput.responseBuilder.speak("Adding " + jar_to_get.payment + " to " 
     + jar_to_get.jar_task + " your total is now " + jar_to_get.total).getResponse();
   },
