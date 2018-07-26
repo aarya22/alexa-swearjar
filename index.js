@@ -45,19 +45,8 @@ const SetupJarHandler = {
   handle(handlerInput) {
     return handlerInput.responseBuilder.speak("This is setup").getResponse();
   }
-}
+};
 
-const NoHandler = {
-  canHandle(handlerInput) {
-      return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      handlerInput.requestEnvelope.request.intent.name === "NoHandler";
-  }, 
-  
-  handle(handlerInput) {
-    jar.total = jar.total + jar.payment;
-    return handlerInput.responseBuilder.speak("Adding 1 to total").getResponse();
-  }
-}
 
 const CheckJarHandler = {
     canHandle(handlerInput) {
@@ -67,6 +56,40 @@ const CheckJarHandler = {
         // this.response.speak("This is test");
         return handlerInput.responseBuilder.speak("In the " + jar.jar_task + " swear jar, you have " + jar.total).getResponse();
     }
+};
+
+
+// IF THE USER SAYS YES, THEY WANT ANOTHER FACT.
+const YesHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.YesIntent';
+  },
+  handle(handlerInput) {
+    console.log('In YesHandler');
+
+    const speakResponse = `Here's your random fact: ${getRandomFact(ALL_FACTS)} ${getRandomYesNoQuestion()}`;
+    const repromptResponse = getRandomYesNoQuestion();
+
+    return handlerInput.responseBuilder
+      .speak(speakResponse)
+      .reprompt(repromptResponse)
+      .getResponse();
+  },
+};
+
+// IF THE USER SAYS NO, THEY DON'T WANT ANOTHER FACT.  EXIT THE SKILL.
+const NoHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.NoIntent';
+  },
+  handle(handlerInput) {
+    console.log('IN NOHANDLER');
+    jar.total = jar.total + jar.payment;
+    const speakResponse = getRandomGoodbye();
+    return handlerInput.responseBuilder.speak("Adding "+jar.payment+" to total").getResponse();
+  },
 };
 
 exports.handler = Alexa.SkillBuilders.standard()
