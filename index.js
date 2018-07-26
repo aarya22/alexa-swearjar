@@ -3,10 +3,9 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable prefer-arrow-callback */
 
-var jar_list = [];
+var all_jars = new Map();
 
 var jar = {jar_task: "workout", frequency: "weekly", payment: 2, destination: "American Cancer Society", total: 0};
-jar_list.push(jar);
 
 // alexa-cookbook sample code
 
@@ -59,7 +58,7 @@ const SetupJarHandler = {
         destination: "American Cancer Society",
         total: 0
       }
-      jar_list.push(newjar);
+      all_jars.set(newjar.jar_task, newjar);
       return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " dollars.").getResponse();
     }
   }
@@ -75,9 +74,7 @@ const CheckJarHandler = {
     handle(handlerInput) {
         // this.response.speak("This is test");
         var slots = handlerInput.requestEnvelope.request.intent.slots;
-        var jar_to_get = jar_list.find(obj => {
-            return obj.jar_task === slots.goal.value
-        });
+        jar_to_get = all_jars.get(slots.goal.value);
         
         return handlerInput.responseBuilder.speak("In the " + jar_to_get.jar_task + " swear jar, you have " + jar_to_get.total).getResponse();
     }
@@ -89,7 +86,7 @@ const CheckJarHandler = {
     entitled products.
 */
 function getSpeakableListOfJars() {
-  const jarNameList = jar_list.map(jar => jar.jar_task);
+  const jarNameList = all_jars.values().map(jar => jar.jar_task);
   let jarListSpeech = jarNameList.join(', '); // Generate a single string with comma separated product names
   jarListSpeech = jarListSpeech.replace(/_([^_]*)$/, 'and $1'); // Replace last comma with an 'and '
   return jarListSpeech;
@@ -134,9 +131,7 @@ const NoHandler = {
   handle(handlerInput) {
     console.log('IN NOHANDLER');
     var slots = handlerInput.requestEnvelope.request.intent.slots;
-    var jar_to_get = jar_list.find(obj => {
-        return obj.jar_task === slots.goal.value
-    });
+    var jar_to_get = all_jars.get(slots.goal.value);
     jar_to_get.total = jar_to_get.total +  jar_to_get.payment;
     return handlerInput.responseBuilder.speak("Adding " + jar_to_get.payment + " to " 
     + jar_to_get.jar_task + " your total is now " + jar_to_get.total).getResponse();
