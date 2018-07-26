@@ -66,6 +66,8 @@ const CheckJarHandler = {
     
     handle(handlerInput) {
         // this.response.speak("This is test");
+        var slots = handlerInput.requestEnvelope.request.intent.slots;
+        var jar_to_get = slots.goal.value;
         return handlerInput.responseBuilder.speak("In the " + jar.jar_task + " swear jar, you have " + jar.total).getResponse();
     }
 };
@@ -97,7 +99,8 @@ const ListJarHandler = {
 const YesHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
-      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.YesIntent';
+      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.YesIntent' ||
+      handlerInput.requestEnvelope.request.intent.name === 'Record';
   },
   handle(handlerInput) {
     console.log('In YesHandler');
