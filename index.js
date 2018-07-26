@@ -43,27 +43,33 @@ const SetupJarHandler = {
   }, 
   
   handle(handlerInput) {
-    var slots = handlerInput.requestEnvelope.request.intent.slots;
-    var newjar = 
-    { 
-      jar_task: slots.goal.value, 
-      frequency: slots.frequency.value, 
-      payment: slots.amount.value, 
-      currency: slots.currency.value,
-      destination: "American Cancer Society",
-      total: 0
+    if (handlerInput.requestEnvelope.request.dialogState === "STARTED"){
+
     }
-    jar_list.push(newjar);
-    return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " " + newjar.currency).getResponse();
+    else if (handlerInput.requestEnvelope.request.dialogState != "COMPLETED"){
+      return {"type": "Dialog.delegate"};
+    }
+    else {
+      var slots = handlerInput.requestEnvelope.request.intent.slots;
+      var newjar = 
+      { 
+        jar_task: slots.goal.value, 
+        frequency: slots.frequency.value, 
+        payment: slots.amount.value, 
+        destination: "American Cancer Society",
+        total: 0
+      }
+      jar_list.push(newjar);
+      return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " dollars.").getResponse();
+    }
   }
 };
+
 
 const CheckJarHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-        handlerInput.requestEnvelope.request.intent.name === "Check";
-    },
-    
+        handlerInput.requestEnvelo
     handle(handlerInput) {
         // this.response.speak("This is test");
         var slots = handlerInput.requestEnvelope.request.intent.slots;
@@ -93,6 +99,7 @@ const ListJarHandler = {
         handlerInput.requestEnvelope.request.intent.name === "List";
   },
   
+  
   handle(handlerInput) {
     return handlerInput.responseBuilder.speak(`You currently have ${getSpeakableListOfJars()}`).getResponse();
   }
@@ -108,9 +115,12 @@ const YesHandler = {
   handle(handlerInput) {
     console.log('In YesHandler');
 
+    const speakResponse = `Here's your random fact: ${getRandomFact(ALL_FACTS)} ${getRandomYesNoQuestion()}`;
+    const repromptResponse = getRandomYesNoQuestion();
+
     return handlerInput.responseBuilder
-      .speak("Great job! Keep it up!")
-      .reprompt("I didn't catch that, what was it again?")
+      .speak(speakResponse)
+      .reprompt(repromptResponse)
       .getResponse();
   },
 };
