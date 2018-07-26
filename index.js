@@ -61,9 +61,7 @@ const SetupJarHandler = {
 const CheckJarHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-        handlerInput.requestEnvelope.request.intent.name === "Check";
-    },
-    
+        handlerInput.requestEnvelo
     handle(handlerInput) {
         // this.response.speak("This is test");
         return handlerInput.responseBuilder.speak("In the " + jar.jar_task + " swear jar, you have " + jar.total).getResponse();
