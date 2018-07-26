@@ -43,7 +43,17 @@ const SetupJarHandler = {
   }, 
   
   handle(handlerInput) {
-    return handlerInput.responseBuilder.speak("This is setup").getResponse();
+    var slots = handlerInput.requestEnvelope.request.intent.slots;
+    var newjar = 
+    { 
+      jar_task: slots.goal.value, 
+      frequency: slots.frequency.value, 
+      payment: slots.amount.value, 
+      destination: "American Cancer Society",
+      total: 0
+    }
+    jar_list.push(newjar);
+    return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " dollars.").getResponse();
   }
 };
 
@@ -58,6 +68,29 @@ const CheckJarHandler = {
     }
 };
 
+
+/*
+    Helper function that returns a speakable list of product names from a list of
+    entitled products.
+*/
+function getSpeakableListOfJars() {
+  const jarNameList = jar_list.map(jar => jar.jar_task);
+  let jarListSpeech = jarNameList.join(', '); // Generate a single string with comma separated product names
+  jarListSpeech = jarListSpeech.replace(/_([^_]*)$/, 'and $1'); // Replace last comma with an 'and '
+  return jarListSpeech;
+}
+
+const ListJarHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+        handlerInput.requestEnvelope.request.intent.name === "List";
+  },
+  
+  
+  handle(handlerInput) {
+    return handlerInput.responseBuilder.speak(`You currently have ${getSpeakableListOfJars()}`).getResponse();
+  }
+}
 
 // IF THE USER SAYS YES, THEY WANT ANOTHER FACT.
 const YesHandler = {
@@ -96,6 +129,9 @@ exports.handler = Alexa.SkillBuilders.standard()
   .addRequestHandlers(
     LaunchRequestHandler,
     SetupJarHandler,
+    ListJarHandler,
+    YesHandler,
+    NoHandler,
     CheckJarHandler
   )
 //   .addRequestInterceptors(RequestLog)
