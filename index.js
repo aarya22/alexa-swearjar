@@ -49,14 +49,14 @@ const SetupJarHandler = {
       jar_task: slots.goal.value, 
       frequency: slots.frequency.value, 
       payment: slots.amount.value, 
+      currency: slots.currency.value,
       destination: "American Cancer Society",
       total: 0
     }
     jar_list.push(newjar);
-    return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " dollars.").getResponse();
+    return handlerInput.responseBuilder.speak("Great! Making a "  + newjar.jar_task + " jar with " + newjar.payment + " " + newjar.currency).getResponse();
   }
 };
-
 
 const CheckJarHandler = {
     canHandle(handlerInput) {
@@ -86,7 +86,6 @@ const ListJarHandler = {
         handlerInput.requestEnvelope.request.intent.name === "List";
   },
   
-  
   handle(handlerInput) {
     return handlerInput.responseBuilder.speak(`You currently have ${getSpeakableListOfJars()}`).getResponse();
   }
@@ -101,12 +100,9 @@ const YesHandler = {
   handle(handlerInput) {
     console.log('In YesHandler');
 
-    const speakResponse = `Here's your random fact: ${getRandomFact(ALL_FACTS)} ${getRandomYesNoQuestion()}`;
-    const repromptResponse = getRandomYesNoQuestion();
-
     return handlerInput.responseBuilder
-      .speak(speakResponse)
-      .reprompt(repromptResponse)
+      .speak("Great job! Keep it up!")
+      .reprompt("I didn't catch that, what was it again?")
       .getResponse();
   },
 };
@@ -120,8 +116,7 @@ const NoHandler = {
   handle(handlerInput) {
     console.log('IN NOHANDLER');
     jar.total = jar.total + jar.payment;
-    const speakResponse = getRandomGoodbye();
-    return handlerInput.responseBuilder.speak("Adding "+jar.payment+" to total").getResponse();
+    return handlerInput.responseBuilder.speak("Adding "+ jar.payment+" to total").getResponse();
   },
 };
 
