@@ -1,0 +1,583 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "swear jar",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Setup",
+                    "slots": [
+                        {
+                            "name": "create",
+                            "type": "CreateType"
+                        },
+                        {
+                            "name": "jar",
+                            "type": "JarType"
+                        },
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "samples": [
+                                "{goal}"
+                            ]
+                        },
+                        {
+                            "name": "frequency",
+                            "type": "FrequencyType",
+                            "samples": [
+                                "{frequency}"
+                            ]
+                        },
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{amount} {currency}"
+                            ]
+                        },
+                        {
+                            "name": "currency",
+                            "type": "CurrencyType",
+                            "samples": [
+                                "{currency}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{create} a {jar} for {goal} {frequency} with {amount} {currency}",
+                        "{create} a {frequency} {jar} for {goal} with {amount} {currency}"
+                    ]
+                },
+                {
+                    "name": "Check",
+                    "slots": [
+                        {
+                            "name": "jar",
+                            "type": "JarType"
+                        },
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "samples": [
+                                "{goal}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "check how much money I have in the {goal} {jar}",
+                        "check how much money I have in the {jar} for {goal}"
+                    ]
+                },
+                {
+                    "name": "Remove",
+                    "slots": [
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "samples": [
+                                "{goal}"
+                            ]
+                        },
+                        {
+                            "name": "jar",
+                            "type": "JarType"
+                        },
+                        {
+                            "name": "cancel",
+                            "type": "CancelType"
+                        }
+                    ],
+                    "samples": [
+                        "{cancel} the {jar} for {goal}",
+                        "{cancel} my {jar} for {goal}",
+                        "{cancel} the {goal} {jar}",
+                        "{cancel} my {goal} {jar}"
+                    ]
+                },
+                {
+                    "name": "Change",
+                    "slots": [
+                        {
+                            "name": "change",
+                            "type": "ChangeType"
+                        },
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "samples": [
+                                "{goal} {jar}",
+                                "{goal}"
+                            ]
+                        },
+                        {
+                            "name": "jar",
+                            "type": "JarType"
+                        },
+                        {
+                            "name": "frequency",
+                            "type": "FrequencyType",
+                            "samples": [
+                                "{frequency}"
+                            ]
+                        },
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{amount} {currency}"
+                            ]
+                        },
+                        {
+                            "name": "currency",
+                            "type": "CurrencyType",
+                            "samples": [
+                                "{currency}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{change} frequency of {goal} {jar} to {frequency}",
+                        "{change} amount for {goal} {jar} to {amount} {currency}",
+                        "{change} amount of {goal} {jar} to {amount} {currency}",
+                        "{change} frequency for {goal} {jar} to {frequency}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "CreateType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "open up",
+                                "synonyms": [
+                                    "open",
+                                    "create",
+                                    "setup",
+                                    "make"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "JarType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "swear jar",
+                                "synonyms": [
+                                    "jar"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "GoalType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "not swearing"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "working out"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "FrequencyType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "weekdays",
+                                "synonyms": [
+                                    "on weekdays"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "monthly",
+                                "synonyms": [
+                                    "every month"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "weekly",
+                                "synonyms": [
+                                    "every week"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "daily",
+                                "synonyms": [
+                                    "everyday"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "CurrencyType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "cents"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dollars"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "CancelType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "cancel",
+                                "synonyms": [
+                                    "destroy",
+                                    "delete",
+                                    "remove"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ChangeType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "change",
+                                "synonyms": [
+                                    "modify"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "Setup",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "create",
+                            "type": "CreateType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "jar",
+                            "type": "JarType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1309609693970.447441186934"
+                            }
+                        },
+                        {
+                            "name": "frequency",
+                            "type": "FrequencyType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1309609693970.1174636626214"
+                            }
+                        },
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "",
+                                "elicitation": "Elicit.Slot.679564964046.969758705470"
+                            }
+                        },
+                        {
+                            "name": "currency",
+                            "type": "CurrencyType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.679564964046.728341864186"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Check",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "jar",
+                            "type": "JarType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.940898607374.633952601399"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Change",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "change",
+                            "type": "ChangeType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": ""
+                            }
+                        },
+                        {
+                            "name": "jar",
+                            "type": "JarType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "frequency",
+                            "type": "FrequencyType",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Slot.1051117199462.436544141098",
+                                "elicitation": "Elicit.Slot.1051117199462.436544141098"
+                            }
+                        },
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Slot.1051117199462.1144468809699",
+                                "elicitation": "Elicit.Slot.1051117199462.1144468809699"
+                            }
+                        },
+                        {
+                            "name": "currency",
+                            "type": "CurrencyType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1051117199462.601934253974"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Remove",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "goal",
+                            "type": "GoalType",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Slot.1229271752910.861425988202",
+                                "elicitation": "Elicit.Slot.1229271752910.861425988202"
+                            }
+                        },
+                        {
+                            "name": "jar",
+                            "type": "JarType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "cancel",
+                            "type": "CancelType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1309609693970.447441186934",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the goal of the jar?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "What is the goal of this jar?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Welcome to swear jar. What is the goal of the jar?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1309609693970.1174636626214",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I can check on you weekly, daily, monthly, or on weekdays. How often would you like me to check?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1051117199462.1144468809699",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How much do you want to charge?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1051117199462.1144468809699",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Ok, {amount} {currency} . Are you sure?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1051117199462.601934253974",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Is that in cents or dollars?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1051117199462.436544141098",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I can check daily, weekly, monthly, or on weekdays. How often would you like me to check?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1051117199462.436544141098",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Are you sure you want me to check {frequency} ?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1229271752910.861425988202",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which goal jar did you want to remove?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1229271752910.861425988202",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Are you sure you want to remove your {goal} jar?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.940898607374.633952601399",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which goal did you want to check?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.679564964046.969758705470",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How much would you like to charge?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.679564964046.728341864186",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Is this in cents or dollars?"
+                    }
+                ]
+            }
+        ]
+    }
+}
